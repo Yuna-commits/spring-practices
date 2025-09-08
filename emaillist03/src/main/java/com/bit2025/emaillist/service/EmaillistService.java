@@ -9,6 +9,9 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import com.bit2025.emaillist.repository.EmailRepository;
@@ -21,6 +24,9 @@ public class EmaillistService {
 	private DataSource dataSource;
 
 	@Autowired
+	private PlatformTransactionManager transactionManager;
+
+	@Autowired
 	private EmailRepository emailRepository;
 
 	@Autowired
@@ -30,18 +36,32 @@ public class EmaillistService {
 		return emailRepository.findAll();
 	}
 
+	// 2. TransactionManager로 트랜잭션 관리
 	public void addEmail(EmailVo vo) {
-		// email_log의 pk : reg_date, 이미 등록된 pk이면 update 결과 == 0
-		int count = emaillogRepository.update();
+		// Transaction : begin
+		TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
-		if (count == 0) {
-			emaillogRepository.insert();
+		try {
+			// email_log의 pk : reg_date, 이미 등록된 pk이면 update 결과 == 0
+			int count = emaillogRepository.update();
+			
+			if (count == 0) {
+				emaillogRepository.insert();
+			}
+			
+			emailRepository.insert(vo);
+			
+			// Transaction : end(success)
+			transactionManager.commit(txStatus);
+		} catch (Throwable e) {
+			// Transaction : end(fail)
+			transactionManager.rollback(txStatus);
+			
+			throw new RuntimeException(e);
 		}
-
-		emailRepository.insert(vo);
 	}
 
-	// spring이 다음 layer로 트랜잭션을 넘기는 방법
+	// 1. 가장 원시적인 트랜잭션 관리
 	public void deleteEmail(Long id) {
 		// 트랜잭션 동기화(각 Layer의 Connection) 작업 : 초기화
 		TransactionSynchronizationManager.initSynchronization();
