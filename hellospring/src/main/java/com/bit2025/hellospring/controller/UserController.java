@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class UserController {
 	@RequestMapping(value = "/join", method = RequestMethod.GET)
 	public String join() {
+		System.out.println("UserController.join() called [GET]");
 		return "/WEB-INF/views/join.jsp";
 	}
 
