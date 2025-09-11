@@ -17,7 +17,7 @@
 			element.addEventListener("click", function(event) {
 				// 기본 핸들러의 기능(link to href) 막기
 				event.preventDefault();
-				// data-lang을 쿠키에 저장
+				// "data-lang"을 쿠키에 저장
 				document.cookie = 
 					"lang=" + this.getAttribute("data-lang") + ";" +
 					"path=" + "${pageContext.request.contextPath}" + ";" +
@@ -31,6 +31,7 @@
 </head>
 <body>
 	<h1>
+		<!-- message properties에서 "index.title" 키 찾기 -->
 		<spring:message code="index.title"/>
 	</h1>
 	<div id="languages">
