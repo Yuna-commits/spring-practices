@@ -37,13 +37,13 @@
 	<div id="languages">
 		<c:choose>
 			<c:when test='${lang == "ko" }'>
-				<a href="" data-lang="ko" class="active">KO</a> <a href="" data-lang="en">EN</a> <a href="" data-lang="ja">JP</a>
+				<a href="" data-lang="ko" class="active">KO</a><a href="" data-lang="en">EN</a><a href="" data-lang="ja">JP</a>
 			</c:when>
 			<c:when test='${lang == "en" }'>
-				<a href="" data-lang="ko">KO</a> <a href="" data-lang="en"  class="active">EN</a> <a href="" data-lang="ja">JP</a>
+				<a href="" data-lang="ko">KO</a><a href="" data-lang="en" class="active">EN</a><a href="" data-lang="ja">JP</a>
 			</c:when>
 			<c:otherwise>
-				<a href="" data-lang="ko">KO</a> <a href="" data-lang="en">EN</a> <a href="" data-lang="ja"  class="active">JP</a>
+				<a href="" data-lang="ko">KO</a><a href="" data-lang="en">EN</a><a href="" data-lang="ja" class="active">JP</a>
 			</c:otherwise>			
 		</c:choose>
 	</div>
