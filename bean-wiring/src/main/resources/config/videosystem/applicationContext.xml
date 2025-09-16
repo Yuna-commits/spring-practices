@@ -13,7 +13,9 @@
         http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 	
 	<!-- Explicity Bean Configuration(명시적 빈 등록) -->
-	<bean class="videosystem.Avengers" />
-	<bean class="videosystem.DVDPlayer" />
+	<bean id="avengers" class="videosystem.Avengers" />
+	<bean class="videosystem.DVDPlayer">
+		<constructor-arg index="0" ref="avengers"/>
+	</bean>
 	
 </beans>
