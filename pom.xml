@@ -29,5 +29,6 @@
 		<module>fileupload</module>
 		<module>locale</module>
 		<module>bean-wiring</module>
+		<module>thymeleaf</module>
 	</modules>
 </project>
